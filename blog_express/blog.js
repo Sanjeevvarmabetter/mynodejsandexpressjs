@@ -15,8 +15,9 @@ app.use(express.urlencoded({ extended: false}))
 //we need to load the module we created
 
 const createUser = require('./modules/createUsers')
+const removeuser = require('./modules/userremove')
 const createBlogs = require('./modules/createBlogs')
-
+const removeblogs = require('./modules/blogremove')
 //define the routes
 
 
@@ -25,16 +26,29 @@ app.get('/',(req,res) => {
 })
 //after adding the createusers we need to init the route for that 
 
-app.get('/createusers',(req,res) => {
+app.post('/createusers',(req,res) => {
 	//we need to access the createuser module
 	createUser(req,res)
 	res.send('user has been added successfully')
 })
 
-app.get('/createblogs',(req,res) =>  {
+
+app.post('/removeuser',(req,res) => {
+	//we need to access the createuser module
+	removeuser(req,res)
+	res.send('user has been removed successfully')
+})
+
+app.post('/createblogs',(req,res) =>  {
 	createBlogs(req,res)
 	res.send("Hello from blog module")
 });
+
+app.post('/removeblog',(req,res) => {
+	//we need to access the createuser module
+	removeblogs(req,res)
+	res.send('blog has been removed  successfully')
+})
 
 const port = 3001;
 
