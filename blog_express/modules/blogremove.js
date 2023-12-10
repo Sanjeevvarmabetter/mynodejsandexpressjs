@@ -1,26 +1,27 @@
+
 const fs = require('fs')
 
-const blogremove = function(req,res) {
-	var dataexp = fs.readFileSync('./data.json','utf8')
-	var data = JSON.parse(dataexp)
-	
-	var delblogid = req.body.id - 0
+const blogsRemove = function(req, res) {
+  var dataExp = fs.readFileSync('./data.json', 'utf8')
+  var data = JSON.parse(dataExp)
 
-	var elementfound = function(blog) {
-		return blog.id === delblogid
-	}
+  var delBlogID = req.body.id - 0
 
-	var index = data.blogs.findIndex(elementfound)
+  var elementFound = function(blog) {
+    return blog.id === delBlogID
+  }
 
-	data.blogs.splice(index, 1)
+  var index = data.blogs.findIndex(elementFound)
 
+  data.blogs.splice(index, 1)
 
-	dataToFile = JSON.stringify(data) 
-	
-	fs.writeFile('./data.json', dataFile,function(err) {
-		if (err) throw err;
-		console.log('blogid removed');
-	});
+  dataToFile = JSON.stringify(data)
+
+  fs.writeFile('./data.json', dataToFile, function(err) {
+    if (err) throw err;
+    console.log('blogID removed');
+    });
 }
-module.exports = blogremove();
+
+module.exports = blogsRemove;
 

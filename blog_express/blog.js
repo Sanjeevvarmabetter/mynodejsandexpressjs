@@ -18,12 +18,67 @@ const createUser = require('./modules/createUsers')
 const removeuser = require('./modules/userremove')
 const createBlogs = require('./modules/createBlogs')
 const removeblogs = require('./modules/blogremove')
+const queryBlogs = require('./modules/queryBlogs')
 //define the routes
 
 
 app.get('/',(req,res) => {
 	res.send("Blog Home page")
 })
+
+
+
+app.get('/blog/:year?/:month?/:day?',(req,res) => {
+
+	url = req.url
+	year = req.params.year
+	month = req.params.month
+	day = req.params.day
+
+	var allBlogs = queryBlogs.queryAllBlogs()
+	if(url == '/blog') {
+			//display all the blogs
+			if(allBlogs.length == 0) {
+				res.send('no post found')
+			}else {
+				res.send(allBlogs)
+			}
+	}
+	else if (url == '/blog'+'/'+year) {
+		//display the blogs from that year
+		const blogsYear = queryBlogs.queryBlogsYear(allBlogs)
+		if(blogsYear.length == 0) {
+			res.send('no post found')
+		}else {
+			res.send(blogsYear)
+		}
+	}
+
+	else if(url == '/blog'+'/'+year+'/'+month) {
+		const blogyearmonth = queryBlogs.queryBlogsYearMonth(allBlogs)
+		if(blogyearmonth.length == 0) {
+			res.send("no post found")
+		}else {
+			res.send(blogyearmonth)
+		}
+	}
+
+	else if(url == '/blog'+year+'/'+month+'/'+day) {
+			const blogyearmonthday = queryBlogs.queryBlogsYearMonthDay(allBlogs)
+
+			if(blogyearmonthday.length = 0) {
+				res.send('noo post is found')
+			}else {
+				res.send(blogyearmonthday)
+			}
+	}
+	else {
+		res.status(404).send('not founddadadadawddadadawdadw')
+	}
+})
+
+
+
 //after adding the createusers we need to init the route for that 
 
 app.post('/createusers',(req,res) => {
